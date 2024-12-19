@@ -1,0 +1,47 @@
+# General
+# ------------------------------------------------------------------------------
+requests
+python-slugify
+Pillow
+argon2-cffi
+phonenumbers
+ua-parser
+user-agents
+
+# Django & Django Helpers
+# ------------------------------------------------------------------------------
+django
+django-environ
+django-model-utils
+django-redis
+django-cors-headers
+django-storages[azure]
+django-anymail[sendgrid]
+django-phonenumber-field[phonenumbers]
+django-user-agents
+django-extensions
+django-choices
+
+# Production
+# ------------------------------------------------------------------------------
+gunicorn
+uvicorn[standard]
+
+# Celery
+# ------------------------------------------------------------------------------
+celery
+django-celery-beat
+
+# Cache
+# ------------------------------------------------------------------------------
+redis
+hiredis
+
+# Rest Framework
+# ------------------------------------------------------------------------------
+djangorestframework
+django-filter
+
+# Database
+# ------------------------------------------------------------------------------
+psycopg2
