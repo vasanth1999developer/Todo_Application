@@ -7,7 +7,8 @@ from .models import User
 class UserCreateSerializer(AppCreateModelSerializer):
     """
     This is CUD Serializer for User model.
-    """ 
+    """
+     
     class Meta(AppCreateModelSerializer.Meta):
         model = User
         fields = ('username', 
@@ -20,6 +21,7 @@ class UserCreateSerializer(AppCreateModelSerializer):
         """ 
         convert the Email into a Lowercase
         """
+        
         return value.lower()   
         
     def validate_password(self, password):   
@@ -30,7 +32,8 @@ class UserCreateSerializer(AppCreateModelSerializer):
         one lowercase letter, 
         one digit and 
         one special character.
-        """             
+        """ 
+                   
         if len(password) < 8:
             raise serializers.ValidationError("Password must be at least 8 characters long.")
         if not any(char.isdigit() for char in password):
@@ -46,7 +49,8 @@ class UserCreateSerializer(AppCreateModelSerializer):
         """
         Validate username ...
         it Should not contain any special characters and should not contain numbers...
-        """       
+        """
+               
         if not userName or not userName.strip():
             raise serializers.ValidationError("Username cannot be empty or null.")        
         if any(char in '!@#$%^&*()_+{}:"<>?/.,;[]=-1234567890' for char in userName):
@@ -57,6 +61,7 @@ class UserCreateSerializer(AppCreateModelSerializer):
         """
         By this method password hashing is implemented....
         """
+        
         password = validated_data.pop('password')
         email = validated_data.get('email')
         username = validated_data.pop('username', None)
@@ -74,7 +79,7 @@ class TaskCreateSerializer(AppWriteOnlyModelSerializer):
     """
     This is CUD Serializer for Task model...
     """
-    reminder_time = serializers.DateTimeField(required=False)
+    
     due_date = serializers.DateTimeField(required=False)
     class Meta(AppWriteOnlyModelSerializer.Meta):
         model = Task   
@@ -83,14 +88,25 @@ class TaskCreateSerializer(AppWriteOnlyModelSerializer):
                  ,'due_date'
                  ,'task_date'
                  ,'task_time'
-                 ,'reminder_time'
                  ,'image'
                  ,'status'
                  ,'created_by')
         extra_kwargs = {
             'due_date': {'required': False},
             'created_by': {'read_only': True},
+            'user': {'required': False},
             }
+        
+    def create(self,validated_data):
+        """
+        This method is used to create a new task...
+        """
+        
+        user = self.get_user()
+        task = Task.objects.create(created_by=user,user=user,**validated_data)
+        return task
+        
+        
         
 class TaskRetrieveSerializer(AppReadOnlyModelSerializer):
     """
@@ -99,11 +115,11 @@ class TaskRetrieveSerializer(AppReadOnlyModelSerializer):
     
     class Meta(AppReadOnlyModelSerializer.Meta):
         model = Task
-        fields=('title'
+        fields=('id'
+                 , 'title'
                  ,'description'
                  ,'due_date'
                  ,'task_date'
                  ,'task_time'
-                 ,'reminder_time'
                  ,'status'
                  ,'image')
