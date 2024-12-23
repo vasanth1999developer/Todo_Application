@@ -5,7 +5,7 @@ from django.db.models import Prefetch
 from todo.models import User, Task
 from config.celery_app import app as celery_app
 
-@celery_app.task
+@celery_app.task(bind=True, max_retries=3, default_retry_delay=60)
 def send_task_reminder_emails_morning():
     """
     returns a list of Tasks to their Respective User in the Morning of That Day...
@@ -27,7 +27,7 @@ def send_task_reminder_emails_morning():
                 [recipient_email],
             )
 
-@shared_task
+@celery_app.task(bind=True, max_retries=3, default_retry_delay=60)
 def send_task_reminder_emails_evening():
     """
     returns a list of in-completed Tasks to their Respective User in the evening of That Day...
