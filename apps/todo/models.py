@@ -10,13 +10,11 @@ class User(AbstractUser,AppImageModel,BaseModel):
         It is a User model for the application...
         
     ********************************  Model Fields ********************************
-    
     pk                  - id
     charField           - username,password
     DateTimeField       - created_at,modified_at
     ImageField          - image
-    EmailField          - email
-            
+    EmailField          - email      
     """   
         
     date_joined=None
@@ -43,7 +41,6 @@ class Task(AppImageModel,BaseCreationModel):
         It is a Task model for the Application...
         
     ********************************  Model Fields ********************************
-    
     pk                  - id
     charField           - title
     TextField           - description
