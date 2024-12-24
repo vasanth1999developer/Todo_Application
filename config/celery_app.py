@@ -43,6 +43,6 @@ app.conf.beat_schedule={
     },
     "sent-email-at-4pm-every-day":{
         "task": "todo.tasks.send_task_reminder_emails_evening",
-        "schedule": crontab(hour=18, minute=10)
+        "schedule": crontab(hour=16, minute=0)
     }
 }
