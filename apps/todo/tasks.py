@@ -40,7 +40,7 @@ def send_task_reminder_emails_evening():
         task_list = "\n".join(f"- {task.title}" for task in tasks)      
         if task_list:
             subject = "Your In-Completed Tasks for Today"
-            message = f"Hello {user.username},\n\nHere are your tasks for today:\n\n{task_list}\n\nHave a great night"
+            message = f"Hello {user.username},\n\nHere are your In-completed tasks for today:\n\n{task_list}\n\nHave a great night"
             recipient_email = user.email
             send_mail(
                 subject,

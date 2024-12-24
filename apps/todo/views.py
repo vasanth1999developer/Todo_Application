@@ -12,8 +12,8 @@ class LoginApi(NonAuthenticatedAPIMixin,AppAPIView):
     """LoginApiView API to authenticate a user.."""    
               
     def post(self, request):     
-        email = request.data["username"]
-        password = request.data["password"]          
+        email = self.get_request().data["username"]
+        password = self.get_request().data["password"]          
         user_instance = User.objects.filter(email=email.lower()).first()  
         if user_instance is None :
             return self.send_error_response(data="User Not found...Enter proper email address")
@@ -47,7 +47,8 @@ class TaskCUDAPIViewSet(AppModelCUDAPIViewSet):
     def destroy(self, request, *args, **kwargs):
         """
             Override the destroy() .To get the Instance of the task By filtering User and PK..
-        """              
+        """   
+                   
         user=self.get_user()     
         pk=kwargs.get('pk')      
         instance = Task.objects.filter(user=user,pk=pk).first()
@@ -60,6 +61,7 @@ class TaskCUDAPIViewSet(AppModelCUDAPIViewSet):
        """
             Override the perform_destroy().To do a Soft Delete by setting is_Delete=True..
        """
+       
        instance.is_delete = True 
        instance.save()      
         
@@ -74,7 +76,8 @@ class TaskRetrieveViewSet(AppModelRetrieveAPIViewSet):
        """
             Override get_queryset() method provided by GenericAPIView .
             For filtering the task based on the logged in user and their task <pk>..
-       """         
+       """    
+            
        user = self.get_user()
        queryset = Task.objects.filter(user=user)
        return queryset
